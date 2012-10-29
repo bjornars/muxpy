@@ -14,12 +14,14 @@ class TmuxParser(object):
 
     def list_sessions(self):
         sessions = filter(None, self.backend.list_sessions().split('\n'))
-        sessions = [RE_SESSIONS.search(each).groupdict() for each in sessions]
 
-        for each in sessions:
+        matches = [RE_SESSIONS.search(each) for each in sessions]
+        groups = [m.groupdict() for m in matches if m]
+
+        for each in groups:
             self.intify(each, 'windows')
 
-        return sessions
+        return groups
 
 if __name__== '__main__':
     tmux = TmuxParser(socket='/tmp/tmux-1000/default')
