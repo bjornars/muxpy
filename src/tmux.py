@@ -6,5 +6,4 @@ class Tmux(object):
         self.tmux = TmuxExecutor(socket)
 
     def list_sessions(self):
-        output = self.tmux('list-sessions')
-        return output
+        return self.tmux('list-sessions')
