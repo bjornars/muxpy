@@ -12,10 +12,7 @@ class TmuxExecutor(object):
         self.socket = socket
         self.cmd = ['/usr/bin/env', 'tmux', '-S', socket]
     
-    def __call__(self, command):
-        if not isinstance(command, list):
-            command = [command]
-
+    def __call__(self, *command):
         cmd = self.cmd[:]
         cmd.append('--')
         cmd.extend(command)
@@ -30,4 +27,5 @@ class TmuxExecutor(object):
 
 if __name__== '__main__':
     tmux = TmuxExecutor('/tmp/tmux-1000/default')
-    print tmux('list-sessions')
+    print tmux('list-sessions'),
+    print tmux('list-windows', '-t', 'muxpy'),
