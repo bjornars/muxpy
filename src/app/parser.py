@@ -9,5 +9,5 @@ class TmuxParser(object):
         return sessions
 
 if __name__== '__main__':
-    tmux = TmuxParser('/tmp/tmux-1000/default')
+    tmux = TmuxParser(socket='/tmp/tmux-1000/default')
     print tmux.list_sessions()

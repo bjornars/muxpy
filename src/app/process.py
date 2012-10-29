@@ -1,10 +1,14 @@
+import os
 from subprocess import Popen, PIPE
 
 class TmuxExecError(RuntimeError):
     pass
 
 class TmuxExecutor(object):
-    def __init__(self, socket):
+    def __init__(self, socket=None):
+        if not socket:
+            socket = '/tmp/tmux-%s/default' % os.getuid()
+
         self.socket = socket
         self.cmd = ['/usr/bin/env', 'tmux', '-S', socket]
     
