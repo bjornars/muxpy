@@ -1,0 +1,10 @@
+from .process import TmuxExecutor
+
+class Tmux(object):
+    def __init__(self, socket):
+        self.socket = socket
+        self.tmux = TmuxExecutor(socket)
+
+    def list_sessions(self):
+        output = self.tmux('list-sessions')
+        return output
