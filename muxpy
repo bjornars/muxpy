@@ -3,6 +3,7 @@
 import argparse
 import os
 import sys
+import stat
 
 from app import commands
 
@@ -27,6 +28,19 @@ if parsed.command == 'help':
     args = [parsed.target, '--help']
     p.parse_args(args)
     sys.exit(1)
+
+def err_out(msg):
+    print >> sys.stderr, msg
+    p.print_help()
+    sys.exit(1)
+
+try:
+    s = os.stat(parsed.socket)
+except:
+    err_out('%s does not exist' % parsed.socket)
+
+if not stat.S_ISSOCK(s.st_mode):
+    err_out('%s is not a socket' % parsed.socket)
 
 if parsed.command == 'start':
     commands.start(parsed)
