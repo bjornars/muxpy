@@ -3,6 +3,18 @@ import app.parser
 import app.backend
 import mock
 
+class DotDefaultDictTest(unittest.TestCase):
+    def test_defaults(self):
+        d = app.parser.ddict()
+        self.assertFalse(d['foobar'])
+
+    def test_dot(self):
+        d = app.parser.ddict()
+        self.assertFalse(d.foobar)
+        d.update(dict(foo='bar'))
+        self.assertEquals(d.foo, 'bar')
+
+
 class ParserTest(unittest.TestCase):
     def setUp(self):
         self.p = app.parser.TmuxParser()

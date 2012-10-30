@@ -1,9 +1,17 @@
 import re
+from collections import defaultdict
 
 from .backend import Backend
 
 RE_SESSIONS = re.compile(r"^(?P<name>.*?): (?P<windows>\d*)")
 RE_WINDOWS = re.compile(r"^(?P<number>\d*?): (?P<name>.*) \[\d+x\d+\] \[layout (?P<layout>.*?)$")
+
+class ddict(dict):
+    def __getattr__(self, item):
+        return self.get(item, False)
+    
+    def __missing__(self, item): 
+        return False
 
 class TmuxParser(object):
     def __init__(self, socket=None, backend=Backend):
@@ -18,7 +26,7 @@ class TmuxParser(object):
         sessions = filter(None, self.backend.list_sessions().split('\n'))
 
         matches = [RE_SESSIONS.search(each) for each in sessions]
-        groups = [m.groupdict() for m in matches if m]
+        groups = [ddict(m.groupdict()) for m in matches if m]
 
         for each in groups:
             self.intify(each, 'windows')
@@ -28,7 +36,7 @@ class TmuxParser(object):
     def list_windows(self, session):
         windows = filter(None, self.backend.list_windows(session).split('\n'))
         matches = [RE_WINDOWS.search(each) for each in windows]
-        groups = [m.groupdict() for m in matches if m]
+        groups = [ddict(m.groupdict()) for m in matches if m]
 
         for each in groups:
             self.intify(each, 'number')
