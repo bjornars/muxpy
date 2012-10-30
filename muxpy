@@ -1,21 +1,27 @@
 #! /usr/bin/env python
 
-import sys
 import argparse
+import os
+import sys
 
 from app import commands
 
-p= argparse.ArgumentParser(prog='muxpy', description='manage tmux sessions')
+default_socket = '/tmp/muxpy-%s/default' % os.getuid()
+p = argparse.ArgumentParser(description='manage tmux sessions')
+p.add_argument('-S', '--socket', default=default_socket, help='the tmux socket. defaults to ' + default_socket)
 subp = p.add_subparsers(dest='command')
 
 helpp = subp.add_parser('help')
 helpp.add_argument('target', help='help on what?')
+
 createp = subp.add_parser('create', description='create a new session')
 createp.add_argument('profile', help='the profile name')
+createp.add_argument('--format', '-f', choices=['json'], default='json', help='profile format')
+
 startp = subp.add_parser('start', description='start a saved session')
+startp.add_argument('profile', help='the profile name')
 
 parsed = p.parse_args(sys.argv[1:])
-print parsed.command
 
 if parsed.command == 'help':
     args = [parsed.target, '--help']
