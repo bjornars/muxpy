@@ -14,6 +14,24 @@ class Backend(object):
     def list_sessions(self):
         return self.tmux('list-sessions')
 
+    def create_session(self, session=None, window=None):
+        args = ['new-session', '-d', '-x', '200', '-y', '200']
+        if session:
+            args.extend(['-s', session])
+        if window:
+            args.extend(['-n', window])
+
+        return self.tmux(*args)
+
+    def new_window(self, name):
+        return self.tmux('new-window', '-d', '-n', name)
+
+    def select_layout(self, layout):
+        return self.tmux('select-layout', layout)
+
+    def select_window(self, name):
+        return self.tmux('select-window', '-t', name)
+
     def new_pane(self):
         self.tmux('split-window', '-h', '-l', '0')
         self.tmux('select-pane', '-L')
