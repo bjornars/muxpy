@@ -58,3 +58,22 @@ muxpy: 3 windows (created Sun Oct 28 12:45:07 2012) [151x41] (attached)
             ]
         )
 
+    def test_list_panes(self):
+        self.p.backend.list_panes = lambda:  \
+"""1:0.0: [151x41] [history 665/2000, 858470 bytes] %7 (active)
+1:1.0: [151x41] [history 190/2000, 78945 bytes] %8 (active)
+muxpy:0.0: [105x50] [history 873/2000, 189074 bytes] %0 (active)
+muxpy:0.1: [88x24] [history 1930/2000, 359685 bytes] %1
+muxpy:0.2: [88x25] [history 109/2000, 24317 bytes] %17
+muxpy:1.0: [97x50] [history 22/2000, 4726 bytes] %2 (active)
+muxpy:1.1: [96x50] [history 0/2000, 0 bytes] %6
+muxpy:2.0: [194x50] [history 675/2000, 123400 bytes] %11 (active)
+muxpy:4.0: [194x50] [history 0/2000, 0 bytes] %15 (active)
+"""
+        
+        self.assertEqual(self.p.get_panes(),
+            { 
+                '1': {0: 1, 1: 1},
+                'muxpy': {0: 3, 1: 2, 2: 1, 4: 1},
+            }
+        )

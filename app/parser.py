@@ -1,5 +1,7 @@
 import re
 from collections import defaultdict
+from itertools import groupby
+from operator import itemgetter
 
 from .backend import Backend
 
@@ -46,6 +48,19 @@ class TmuxParser(object):
             each['layout']= layout[:-1]
 
         return groups
+
+    def get_panes(self):
+        RE_PANES = re.compile('[:.]')
+        panes = filter(None, self.backend.list_panes().split('\n'))
+        panes = map(lambda x: RE_PANES.split(x, 2)[:2], panes)
+        panes.sort()
+
+        pane_dict = defaultdict(dict)
+        for session, windows in groupby(panes, itemgetter(0)):
+            for window, panes in groupby(map(itemgetter(1), windows), itemgetter(0)):
+                pane_dict[session][int(window)] = sum(1 for _ in panes)
+
+        return dict(pane_dict)
 
 if __name__== '__main__':
     tmux = TmuxParser(socket='/tmp/tmux-1000/default')

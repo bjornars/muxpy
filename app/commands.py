@@ -18,10 +18,14 @@ def create(p):
 
     tmux = parser.TmuxParser(p.socket)
     sessions = tmux.list_sessions()
-    
+    panes = tmux.get_panes()
+
     for session in sessions:
         session_data = OrderedDict(name=session.name)
         windows = tmux.list_windows(session.name)
+        for window in windows:
+            window['panes'] = panes[session['name']][window['number']]
+
         session_data['windows'] = windows
         data.append(session_data)
     
