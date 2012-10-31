@@ -1,8 +1,15 @@
 import os
+import sys
+
 from collections import OrderedDict
 from pprint import pprint
 
 from app import profile, parser, formats
+
+def edit(p):
+    prof =  profile.get_profile_path(p.profile, p.format)
+    os.system('/etc/alternatives/editor "%s"' % prof)
+
 
 def start(*args):
     print 'start', args

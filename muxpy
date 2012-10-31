@@ -19,6 +19,9 @@ createp = subp.add_parser('create', description='create a new session')
 createp.add_argument('profile', help='the profile name')
 createp.add_argument('--format', '-f', choices=['json'], default='json', help='profile format')
 
+editp = subp.add_parser('edit', description='edit a saved session')
+editp.add_argument('profile', help='the profile name')
+
 startp = subp.add_parser('start', description='start a saved session')
 startp.add_argument('profile', help='the profile name')
 
@@ -34,17 +37,20 @@ def err_out(msg):
     p.print_help()
     sys.exit(1)
 
-try:
-    s = os.stat(parsed.socket)
-except:
-    err_out('%s does not exist' % parsed.socket)
+if parsed.command == 'create':
+    try:
+        s = os.stat(parsed.socket)
+    except OSError:
+        err_out('%s does not exist' % parsed.socket)
 
-if not stat.S_ISSOCK(s.st_mode):
-    err_out('%s is not a socket' % parsed.socket)
+    if not stat.S_ISSOCK(s.st_mode):
+        err_out('%s is not a socket' % parsed.socket)
 
 if parsed.command == 'start':
     commands.start(parsed)
 elif parsed.command == 'create':
     commands.create(parsed)
+elif parsed.command == 'edit':
+    commands.edit(parsed)
 
 sys.exit(0)
