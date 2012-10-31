@@ -12,6 +12,11 @@ class TmuxExecutor(object):
             socket = '/tmp/tmux-%s/default' % os.getuid()
 
         self.socket = socket
+        pname, sname = os.path.split(socket)
+
+        if not os.path.isdir(pname):
+            os.makedirs(pname)
+
         self.cmd = ['/usr/bin/env', 'tmux', '-S', socket]
 
     def __call__(self, *command):
@@ -23,7 +28,7 @@ class TmuxExecutor(object):
         out, err = p.communicate()
 
         if p.returncode != 0:
-            raise TmuxExecError(err)
+            raise TmuxExecError('error executing %s: %s' % (' '.join(cmd), err))
 
         return out
 
