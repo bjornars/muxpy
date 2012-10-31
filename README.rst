@@ -21,6 +21,10 @@ Usage
 
    ``./muxpy start foo``
 
+HELP AND SUPPORT AND DEVELOPMENT
+================================
+
+There might be some life at #muxpy at freenode.
 
 TODO
 ====
