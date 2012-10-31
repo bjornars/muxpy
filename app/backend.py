@@ -1,5 +1,6 @@
 from .process import TmuxExecutor
 
+
 class Backend(object):
     def __init__(self, socket):
         self.socket = socket
@@ -36,6 +37,6 @@ class Backend(object):
         self.tmux('split-window', '-h', '-l', '0')
         self.tmux('select-pane', '-L')
 
-if __name__== '__main__':
+if __name__ == '__main__':
     tmux = Backend('/tmp/tmux-1000/default')
     print tmux.list_panes('muxpy', 'bash')

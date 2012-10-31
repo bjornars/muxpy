@@ -8,12 +8,14 @@ from .backend import Backend
 RE_SESSIONS = re.compile(r"^(?P<name>.*?): (?P<windows>\d*)")
 RE_WINDOWS = re.compile(r"^(?P<number>\d*?): (?P<name>.*) \[\d+x\d+\] \[layout (?P<layout>.*?)$")
 
+
 class ddict(dict):
     def __getattr__(self, item):
         return self.get(item, False)
-    
-    def __missing__(self, item): 
+
+    def __missing__(self, item):
         return False
+
 
 class TmuxParser(object):
     def __init__(self, socket=None, backend=Backend):
@@ -45,7 +47,8 @@ class TmuxParser(object):
             layout = each['layout']
             if layout.endswith(' (active)'):
                 layout = layout[:-9]
-            each['layout']= layout[:-1]
+
+            each['layout'] = layout[:-1]
 
         return groups
 
@@ -62,7 +65,8 @@ class TmuxParser(object):
 
         return dict(pane_dict)
 
-if __name__== '__main__':
+
+if __name__ == '__main__':
     tmux = TmuxParser(socket='/tmp/tmux-1000/default')
     print tmux.list_sessions()
     print tmux.list_windows('muxpy')

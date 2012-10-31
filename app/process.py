@@ -1,8 +1,10 @@
 import os
 from subprocess import Popen, PIPE
 
+
 class TmuxExecError(RuntimeError):
     pass
+
 
 class TmuxExecutor(object):
     def __init__(self, socket=None):
@@ -11,7 +13,7 @@ class TmuxExecutor(object):
 
         self.socket = socket
         self.cmd = ['/usr/bin/env', 'tmux', '-S', socket]
-    
+
     def __call__(self, *command):
         cmd = self.cmd[:]
         cmd.append('--')
@@ -22,10 +24,11 @@ class TmuxExecutor(object):
 
         if p.returncode != 0:
             raise TmuxExecError(err)
-        
+
         return out
 
-if __name__== '__main__':
+
+if __name__ == '__main__':
     tmux = TmuxExecutor('/tmp/tmux-1000/default')
     print tmux('list-sessions'),
     print tmux('list-windows', '-t', 'muxpy'),

@@ -1,7 +1,7 @@
 import unittest
 import app.parser
 import app.backend
-import mock
+
 
 class DotDefaultDictTest(unittest.TestCase):
     def test_defaults(self):
@@ -27,8 +27,8 @@ muxpy: 3 windows (created Sun Oct 28 12:45:07 2012) [151x41] (attached)
         self.assertListEqual(
             self.p.list_sessions(),
             [
-                dict(name='1',windows=2),
-                dict(name='muxpy',windows=3),
+                dict(name='1', windows=2),
+                dict(name='muxpy', windows=3),
             ]
         )
 
@@ -39,11 +39,11 @@ muxpy: 3 windows (created Sun Oct 28 12:45:07 2012) [151x41] (attached)
 """
         self.assertListEqual(
             self.p.list_sessions(),
-            [dict(name='muxpy',windows=3)]
+            [dict(name='muxpy', windows=3)]
         )
 
     def test_parse_list_windows(self):
-        self.p.backend.list_windows= lambda x: \
+        self.p.backend.list_windows = lambda x: \
 """0: dev [151x41] [layout e12a,151x41,0,0{70x41,0,0,80x41,71,0[80x21,71,0,80x19,71,22]}] (active)
 1: man [151x41] [layout cb5b,151x41,0,0{75x41,0,0,75x41,76,0}]
 2: bash [151x41] [layout bfde,151x41,0,0]
@@ -70,9 +70,9 @@ muxpy:1.1: [96x50] [history 0/2000, 0 bytes] %6
 muxpy:2.0: [194x50] [history 675/2000, 123400 bytes] %11 (active)
 muxpy:4.0: [194x50] [history 0/2000, 0 bytes] %15 (active)
 """
-        
+
         self.assertEqual(self.p.get_panes(),
-            { 
+            {
                 '1': {0: 1, 1: 1},
                 'muxpy': {0: 3, 1: 2, 2: 1, 4: 1},
             }
