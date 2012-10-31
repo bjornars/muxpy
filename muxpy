@@ -10,6 +10,7 @@ from app import commands
 default_socket = '/tmp/muxpy-%s/default' % os.getuid()
 p = argparse.ArgumentParser(description='manage tmux sessions')
 p.add_argument('-S', '--socket', default=default_socket, help='the tmux socket. defaults to ' + default_socket)
+p.add_argument('-v', '--verbose', default=False)
 subp = p.add_subparsers(dest='command')
 
 helpp = subp.add_parser('help')
@@ -21,9 +22,11 @@ createp.add_argument('--format', '-f', choices=['json'], default='json', help='p
 
 editp = subp.add_parser('edit', description='edit a saved session')
 editp.add_argument('profile', help='the profile name')
+editp.add_argument('--format', '-f', choices=['json'], default='json', help='profile format')
 
 startp = subp.add_parser('start', description='start a saved session')
 startp.add_argument('profile', help='the profile name')
+startp.add_argument('--format', '-f', choices=['json'], default='json', help='profile format')
 
 parsed = p.parse_args(sys.argv[1:])
 
