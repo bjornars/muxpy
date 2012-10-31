@@ -4,15 +4,39 @@ import sys
 from collections import OrderedDict
 from pprint import pprint
 
-from app import profile, parser, formats
+from app import profile, parser, formats, backend
 
 def edit(p):
     prof =  profile.get_profile_path(p.profile, p.format)
     os.system('/etc/alternatives/editor "%s"' % prof)
 
+def start(p):
+    prof =  profile.get_profile_path(p.profile, p.format)
+    if not os.path.isfile(prof):
+        print >> sys.stderr, 'Cannot find profile %s' %  p.profile
+        sys.exit(1)
 
-def start(*args):
-    print 'start', args
+    tmux = backend.Backend(socket=p.socket)
+
+    with open(prof) as f:
+        data = formats.parse(p.format, f.read())
+    
+    for session in data:
+        tmux.create_session(session=session['name'], window=session['windows'][0]['name'])
+           
+        for window in session['windows'][1:]:
+            tmux.new_window(window['name'])
+        
+        for window in session['windows']:
+            tmux.select_window(window['name'])
+            
+            # make the required number of panes
+            for _ in range(1, window['panes']):
+                tmux.new_pane()
+
+            tmux.select_layout(window['layout'])
+
+    os.system('tmux -u2 -S %s attach' % p.socket)
 
 def create(p):
     format = p.format
