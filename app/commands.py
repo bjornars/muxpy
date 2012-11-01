@@ -31,8 +31,15 @@ def start(p):
             tmux.select_window(window['name'])
 
             # make the required number of panes
-            for _ in range(1, window['panes']):
-                tmux.new_pane()
+            for index, pane in enumerate(window['panes']):
+                if index > 0:
+                    tmux.new_pane()
+
+                if pane and pane['cwd']:
+                    tmux.send_keys('cd %s\n' % pane['cwd'])
+
+                if pane and pane['cmd']:
+                    tmux.send_keys('%s\n' % pane['cmd'])
 
             tmux.select_layout(window['layout'])
 

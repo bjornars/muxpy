@@ -61,7 +61,7 @@ class TmuxParser(object):
         pane_dict = defaultdict(dict)
         for session, windows in groupby(panes, itemgetter(0)):
             for window, panes in groupby(map(itemgetter(1), windows), itemgetter(0)):
-                pane_dict[session][int(window)] = sum(1 for _ in panes)
+                pane_dict[session][int(window)] = [{} for _ in panes]
 
         return dict(pane_dict)
 

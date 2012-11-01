@@ -34,8 +34,11 @@ class Backend(object):
         return self.tmux('select-window', '-t', name)
 
     def new_pane(self):
+        self.tmux('select-pane', '-t', '0')
         self.tmux('split-window', '-h', '-l', '0')
-        self.tmux('select-pane', '-L')
+
+    def send_keys(self, keys):
+        self.tmux('send-keys', '%s' % keys)
 
 if __name__ == '__main__':
     tmux = Backend('/tmp/tmux-1000/default')
