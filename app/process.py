@@ -14,7 +14,7 @@ class TmuxExecutor(object):
         self.socket = socket
         pname, sname = os.path.split(socket)
 
-        if not os.path.isdir(pname):
+        if pname and not os.path.isdir(pname):
             os.makedirs(pname)
 
         self.cmd = ['/usr/bin/env', 'tmux', '-S', socket]
