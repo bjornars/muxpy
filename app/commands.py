@@ -73,3 +73,9 @@ def create(p):
         f.write(formatted)
 
     print 'made profile, %d sessions with total %d windows' % (len(data), sum(len(x['windows']) for x in data))
+
+
+def kill(p):
+    tmux = backend.Backend(socket=p.socket)
+    tmux.kill_server()
+    print 'killed tmux at %s' % p.socket

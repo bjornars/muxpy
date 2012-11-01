@@ -28,6 +28,8 @@ startp = subp.add_parser('start', description='start a saved session')
 startp.add_argument('profile', help='the profile name')
 startp.add_argument('--format', '-f', choices=['json'], default='json', help='profile format')
 
+killp = subp.add_parser('kill', description='kill a socket')
+
 parsed = p.parse_args(sys.argv[1:])
 
 if parsed.command == 'help':
@@ -55,5 +57,7 @@ elif parsed.command == 'create':
     commands.create(parsed)
 elif parsed.command == 'edit':
     commands.edit(parsed)
+elif parsed.command == 'kill':
+    commands.kill(parsed)
 
 sys.exit(0)

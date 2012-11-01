@@ -40,6 +40,9 @@ class Backend(object):
     def send_keys(self, keys):
         self.tmux('send-keys', '%s' % keys)
 
+    def kill_server(self):
+        self.tmux('kill-server')
+
 if __name__ == '__main__':
     tmux = Backend('/tmp/tmux-1000/default')
     print tmux.list_panes('muxpy', 'bash')
