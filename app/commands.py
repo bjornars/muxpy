@@ -93,4 +93,5 @@ def create(p):
 def kill(p):
     tmux = backend.Backend(socket=p.socket)
     tmux.kill_server()
+    os.unlink(p.socket)
     print 'killed tmux at %s' % p.socket
