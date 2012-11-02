@@ -10,7 +10,7 @@ class Backend(object):
         return self.tmux('list-windows', '-t', session)
 
     def list_panes(self):
-        return self.tmux('list-panes', '-a')
+        return self.tmux('list-panes', '-a', '-F', '#{session_name}\t#{window_index}\t#{pane_index}\t#{pane_pid}')
 
     def list_sessions(self):
         return self.tmux('list-sessions')
@@ -45,4 +45,4 @@ class Backend(object):
 
 if __name__ == '__main__':
     tmux = Backend('/tmp/tmux-1000/default')
-    print tmux.list_panes('muxpy', 'bash')
+    print tmux.list_panes()

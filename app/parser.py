@@ -53,14 +53,15 @@ class TmuxParser(object):
         return groups
 
     def get_panes(self):
-        RE_PANES = re.compile('[:.]')
         panes = filter(None, self.backend.list_panes().split('\n'))
-        panes = map(lambda x: RE_PANES.split(x, 2)[:2], panes)
+        panes = map(lambda x: x.split('\t'), panes)
         panes.sort()
-
         pane_dict = defaultdict(dict)
+
         for session, windows in groupby(panes, itemgetter(0)):
-            for window, panes in groupby(map(itemgetter(1), windows), itemgetter(0)):
+            windows = [x[1:] for x in windows]
+
+            for window, panes in groupby(windows, itemgetter(0)):
                 pane_dict[session][int(window)] = [{} for _ in panes]
 
         return dict(pane_dict)
