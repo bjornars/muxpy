@@ -25,11 +25,3 @@ HELP AND SUPPORT AND DEVELOPMENT
 ================================
 
 There might be some life at #muxpy at freenode.
-
-TODO
-====
-* Better code quality
-* requirements.txt and pip-packaging and stuff.
-* Support more profile formats, like YAML and XML (just kidding). Autodetect format for reading.
-* ???
-* Profit!
