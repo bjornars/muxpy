@@ -1,6 +1,8 @@
 import os
 from subprocess import Popen, PIPE
 
+import logging
+logger = logging.getLogger()
 
 class TmuxExecError(RuntimeError):
     pass
@@ -24,9 +26,9 @@ class TmuxExecutor(object):
         cmd.append('--')
         cmd.extend(command)
 
+        logger.info('executing tmux: %s', ' '.join(cmd))
         p = Popen(cmd, stdout=PIPE, stderr=PIPE)
         out, err = p.communicate()
-
         if p.returncode != 0:
             raise TmuxExecError('error executing %s: %s' % (' '.join(cmd), err))
 
