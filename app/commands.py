@@ -2,7 +2,9 @@ import os
 import sys
 
 from collections import OrderedDict
-from app import profile, parser, formats, backend
+from itertools import count
+
+from . import profile, parser, formats, backend
 
 
 def edit(p):
@@ -61,7 +63,20 @@ def create(p):
     for session in sessions:
         session_data = OrderedDict(name=session.name)
         windows = tmux.list_windows(session.name)
+
+        unique_windows = []
         for window in windows:
+            # make sure the window name is unique, or else tmux will weep loudly
+            if not window['name'] in unique_windows:
+                unique_windows.append(window['name'])
+            else:
+                for x in count():
+                    new_window = "%s_%d" % (window['name'], x)
+                    if new_window not in unique_windows:
+                        break
+                unique_windows.append(new_window)
+                window['name'] = new_window
+
             window['panes'] = panes[session['name']][window['number']]
 
         session_data['windows'] = windows
