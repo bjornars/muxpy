@@ -4,6 +4,7 @@ from itertools import groupby
 from operator import itemgetter
 
 from .backend import Backend
+from .ps import Processes
 
 RE_SESSIONS = re.compile(r"^(?P<name>.*?): (?P<windows>\d*)")
 RE_WINDOWS = re.compile(r"^(?P<number>\d*?): (?P<name>.*) \[\d+x\d+\] \[layout (?P<layout>.*?)$")
@@ -58,11 +59,21 @@ class TmuxParser(object):
         panes.sort()
         pane_dict = defaultdict(dict)
 
+        processes = Processes()
+
+        def get_pane_info(pid):
+            process = processes[pid]
+            if len(process['children']) != 1:
+                return {}
+
+            child = processes[process['children'][0]]
+            return dict(cwd=child['cwd'], cmd=child['cmd'])
+
         for session, windows in groupby(panes, itemgetter(0)):
             windows = [x[1:] for x in windows]
 
             for window, panes in groupby(windows, itemgetter(0)):
-                pane_dict[session][int(window)] = [{} for _ in panes]
+                pane_dict[session][int(window)] = [get_pane_info(int(each[2])) for each in panes]
 
         return dict(pane_dict)
 
