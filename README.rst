@@ -31,6 +31,5 @@ TODO
 * Better code quality
 * requirements.txt and pip-packaging and stuff.
 * Support more profile formats, like YAML and XML (just kidding). Autodetect format for reading.
-* Add more fields to the profile for restoring, such as working directories, virtual env setups and program execution (might have to be implemented with send-keys to the tmux-pane).
 * ???
 * Profit!
