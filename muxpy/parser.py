@@ -53,21 +53,23 @@ class TmuxParser(object):
 
         return groups
 
-    def get_panes(self):
+    def get_panes(self, get_process_info=True):
         panes = filter(None, self.backend.list_panes().split('\n'))
         panes = map(lambda x: x.split('\t'), panes)
         panes.sort()
         pane_dict = defaultdict(dict)
 
-        processes = Processes()
+        if get_process_info:
+            processes = Processes()
 
         def get_pane_info(pid):
-            process = processes[pid]
-            if len(process['children']) != 1:
-                return {}
+            process = get_process_info and processes.get(pid)
 
-            child = processes[process['children'][0]]
-            return dict(cwd=child['cwd'], cmd=child['cmd'])
+            if process and len(process['children']) == 1:
+                child = processes[process['children'][0]]
+                return dict(cwd=child['cwd'], cmd=child['cmd'])
+            else:
+                return {}
 
         for session, windows in groupby(panes, itemgetter(0)):
             windows = [x[1:] for x in windows]

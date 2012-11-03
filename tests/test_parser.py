@@ -72,7 +72,7 @@ muxpy\t2\t1\t5300
 muxpy\t4\t0\t31118
 muxpy\t4\t1\t20912
 """
-        panes = self.p.get_panes()
+        panes = self.p.get_panes(get_process_info=False)
         self.assertEquals(len(panes['1'][0]), 1)
         self.assertEquals(len(panes['muxpy'][0]), 3)
         self.assertEquals(len(panes['muxpy'][1]), 2)
