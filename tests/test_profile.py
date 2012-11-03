@@ -1,6 +1,6 @@
 import unittest
 
-from app import profile
+from muxpy import profile
 
 
 class TestProfile(unittest.TestCase):

@@ -1,15 +1,15 @@
 import unittest
-import app.parser
-import app.backend
+import muxpy.parser
+import muxpy.backend
 
 
 class DotDefaultDictTest(unittest.TestCase):
     def test_defaults(self):
-        d = app.parser.ddict()
+        d = muxpy.parser.ddict()
         self.assertFalse(d['foobar'])
 
     def test_dot(self):
-        d = app.parser.ddict()
+        d = muxpy.parser.ddict()
         self.assertFalse(d.foobar)
         d.update(dict(foo='bar'))
         self.assertEquals(d.foo, 'bar')
@@ -17,7 +17,7 @@ class DotDefaultDictTest(unittest.TestCase):
 
 class ParserTest(unittest.TestCase):
     def setUp(self):
-        self.p = app.parser.TmuxParser()
+        self.p = muxpy.parser.TmuxParser()
 
     def test_parse_list_sessions(self):
         self.p.backend.list_sessions = lambda: \

@@ -6,8 +6,8 @@ import os
 import sys
 import stat
 
-from app import commands
-from app import process
+from . import commands
+from . import process
 
 default_socket = '/tmp/muxpy-%s/default' % os.getuid()
 
