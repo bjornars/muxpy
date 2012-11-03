@@ -30,7 +30,7 @@ def run():
     startp.add_argument('profile', help='the profile name')
     startp.add_argument('--format', '-f', choices=['json'], default='json', help='profile format')
 
-    killp = subp.add_parser('kill', description='kill a socket')
+    subp.add_parser('kill', description='kill a socket')
 
     parsed = p.parse_args(sys.argv[1:])
 

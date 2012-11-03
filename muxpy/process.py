@@ -4,6 +4,7 @@ from subprocess import Popen, PIPE
 import logging
 logger = logging.getLogger()
 
+
 class TmuxExecError(RuntimeError):
     pass
 
@@ -39,4 +40,4 @@ if __name__ == '__main__':
     tmux = TmuxExecutor('/tmp/tmux-1000/default')
     print tmux('list-sessions'),
     print tmux('list-windows', '-t', 'muxpy'),
-    print tmux('list-panes', '-a', '-F',  "#{session_name}\t#{window_number}").split('\t'),
+    print tmux('list-panes', '-a', '-F', "#{session_name}\t#{window_number}").split('\t'),
