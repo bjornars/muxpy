@@ -11,7 +11,7 @@ from app import process
 
 default_socket = '/tmp/muxpy-%s/default' % os.getuid()
 
-p = argparse.ArgumentParser(description='manage tmux sessions')
+p = argparse.ArgumentParser(prog='muxpy', description='manage tmux sessions')
 p.add_argument('-S', '--socket', default=default_socket, help='the tmux socket. defaults to ' + default_socket)
 p.add_argument('-v', '--verbose', default=0, action='count', help='set verbose mode. repeat up to 3 times')
 subp = p.add_subparsers(dest='command')
