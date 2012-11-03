@@ -18,10 +18,9 @@ setup(
     scripts=['bin/muxpy'],
     license='ICS',
     description='A tmux session handler',
-    long_description=open('README.rst').read(),
+    long_description=open('README').read(),
     classifiers=[
         'Programming Language :: Python :: 2.7',
     ],
-    data_files=['README.rst'],
     url='https://github.com/bjornars/muxpy',
 )
