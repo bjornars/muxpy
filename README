@@ -21,7 +21,13 @@ Usage
 
    ``muxpy start foo``
 
-HELP AND SUPPORT AND DEVELOPMENT
+INSTALLATION
+============
+
+This program is hosted at the Python Package Index (http://pypi.python.org/pypi/Muxpy)
+and is a such best installed by ``pip install muxpy``.
+
+SUPPORT AND DEVELOPMENT
 ================================
 
 The software is hosted and developed at https://github.com/bjornars/muxpy, and there might be some life at #muxpy at freenode.
