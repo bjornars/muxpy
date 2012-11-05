@@ -37,10 +37,10 @@ def start(p):
                 if index > 0:
                     tmux.new_pane()
 
-                if pane and pane['cwd']:
+                if pane and 'cwd' in pane:
                     tmux.send_keys('cd %s\n' % pane['cwd'])
 
-                if pane and pane['cmd']:
+                if pane and 'cmd' in pane:
                     tmux.send_keys('%s\n' % pane['cmd'])
 
             tmux.select_layout(window['layout'])
