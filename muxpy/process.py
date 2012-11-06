@@ -27,7 +27,9 @@ class TmuxExecutor(object):
         cmd = self.cmd[:]
         cmd.append('--')
         cmd.extend(command)
+        return self._execute(cmd)
 
+    def _execute(self, cmd):
         logger.info('executing tmux: %s', ' '.join(cmd))
         p = Popen(cmd, stdout=PIPE, stderr=PIPE)
         out, err = p.communicate()
