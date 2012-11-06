@@ -38,6 +38,7 @@ def run():
     logger = logging.getLogger()
     levels = {0: logging.ERROR, 1: logging.WARNING, 2: logging.INFO, 3: logging.DEBUG}
     logger.setLevel(levels.get(parsed.verbose, 3))
+#     logger.warning('logging set to %s' % logging.getLevelName(levels.get(parsed.verbose, 3)))
 
     if parsed.command == 'help':
         args = [parsed.target, '--help']

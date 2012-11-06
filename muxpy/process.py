@@ -20,6 +20,7 @@ class TmuxExecutor(object):
         if pname and not os.path.isdir(pname):
             os.makedirs(pname)
 
+        logger.debug('initializing %s with socket:%s', self.__class__, socket)
         self.cmd = ['/usr/bin/env', 'tmux', '-S', socket]
 
     def __call__(self, *command):
