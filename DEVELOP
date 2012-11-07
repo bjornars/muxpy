@@ -1,0 +1,16 @@
+PREPARING
+=========
+
+Do ``pip install -r requirements-dev.txt``, preferably in a virtual env.
+
+
+RUNNING
+=======
+
+To run from development, ``python muxpy``.
+
+
+TESTING
+=======
+
+To run tests, ``nosetests``.
