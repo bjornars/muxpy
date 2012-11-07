@@ -13,24 +13,45 @@ def run():
     p = argparse.ArgumentParser(prog='muxpy', description='manage tmux sessions')
     p.add_argument('-S', '--socket', default=default_socket, help='the tmux socket. defaults to ' + default_socket)
     p.add_argument('-v', '--verbose', default=0, action='count', help='set verbose mode. repeat up to 3 times')
-    subp = p.add_subparsers(dest='command')
 
+    subp = p.add_subparsers(dest='command', title='available subcommands')
+
+    help = {
+        'create': dict(
+            help='create a new profile from an existing session',
+            description='create a new session'),
+        'edit': dict(
+            help='edit a saved session',
+            description='edit a profile manually'),
+        'start': dict(
+            description='start a saved session',
+            help='start a saved profile'),
+        'attach': dict(
+            description='attach to a socket',
+            help='attach to an existing tmux session'),
+        'kill': dict(
+            description='kill a socket', 
+            help='kill an existing tmux session'),
+    }
+
+    def add_profile(p):
+        p.add_argument('profile', help='the profile name')
+        p.add_argument('-f', '--format', choices=['json'], default='json', help='profile format')
+            
     helpp = subp.add_parser('help')
-    helpp.add_argument('target', help='help on what?')
+    helpp.add_argument('target', help='help on what?', nargs='?')
 
-    createp = subp.add_parser('create', description='create a new session')
-    createp.add_argument('profile', help='the profile name')
-    createp.add_argument('--format', '-f', choices=['json'], default='json', help='profile format')
+    createp = subp.add_parser('create', **help['create'])
+    add_profile(createp)
 
-    editp = subp.add_parser('edit', description='edit a saved session')
-    editp.add_argument('profile', help='the profile name')
-    editp.add_argument('--format', '-f', choices=['json'], default='json', help='profile format')
+    editp = subp.add_parser('edit', **help['edit'])
+    add_profile(editp)
 
-    startp = subp.add_parser('start', description='start a saved session')
-    startp.add_argument('profile', help='the profile name')
-    startp.add_argument('--format', '-f', choices=['json'], default='json', help='profile format')
+    startp = subp.add_parser('start', **help['start'])
+    add_profile(startp)
 
-    subp.add_parser('kill', description='kill a socket')
+    subp.add_parser('attach', **help['attach'])
+    subp.add_parser('kill', **help['kill'])
 
     parsed = p.parse_args(sys.argv[1:])
 
@@ -41,7 +62,10 @@ def run():
 #     logger.warning('logging set to %s' % logging.getLevelName(levels.get(parsed.verbose, 3)))
 
     if parsed.command == 'help':
-        args = [parsed.target, '--help']
+        args = ['--help']
+        if parsed.target:
+            args.insert(0, parsed.target)
+
         p.parse_args(args)
         sys.exit(1)
 
