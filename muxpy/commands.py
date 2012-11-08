@@ -1,3 +1,4 @@
+import logging
 import os
 import sys
 
@@ -6,10 +7,14 @@ from itertools import count
 
 from . import profile, parser, formats, backend
 
+logger = logging.getLogger()
 
 def edit(p):
     prof = profile.get_profile_path(p.profile, p.format)
-    os.system('/etc/alternatives/editor "%s"' % prof)
+    cmd = '/etc/alternatives/editor "%s"' % prof
+
+    logger.info('executing %s', cmd)
+    os.system(cmd)
 
 
 def start(p):
