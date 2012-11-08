@@ -50,7 +50,7 @@ def start(p):
 
             tmux.select_layout(window['layout'])
 
-    os.system('tmux -u2 -S %s attach' % p.socket)
+    attach(p)
 
 
 def create(p):
@@ -94,6 +94,10 @@ def create(p):
 
     print 'made profile, %d sessions with total %d windows' % (len(data), sum(len(x['windows']) for x in data))
 
+def attach(p):
+    cmd = 'tmux -u2 -S %s attach' % p.socket
+    logger.info('executing %s', cmd)
+    os.system(cmd)
 
 def kill(p):
     tmux = backend.Backend(socket=p.socket)

@@ -74,7 +74,7 @@ def run():
         p.print_help()
         sys.exit(1)
 
-    if parsed.command == 'create':
+    if parsed.command in  ['create', 'attach']:
         try:
             s = os.stat(parsed.socket)
         except OSError:
@@ -90,6 +90,8 @@ def run():
             commands.create(parsed)
         elif parsed.command == 'edit':
             commands.edit(parsed)
+        elif parsed.command == 'attach':
+            commands.attach(parsed)
         elif parsed.command == 'kill':
             commands.kill(parsed)
     except process.TmuxExecError as e:
