@@ -13,7 +13,8 @@ def parse(file_format, data):
 
 def format(file_format, data):
     if file_format == 'json':
-        logger.info('dumping %d bytes as json', len(data))
-        return json.dumps(data, indent=4)
+        json_data = json.dumps(data, indent=4)
+        logger.info('dumping %d bytes as json', len(json_data))
+        return json_data
     else:
         raise NotImplementedError('there is no support yet for %s' % file_format)
