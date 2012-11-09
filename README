@@ -25,9 +25,16 @@ INSTALLATION
 ============
 
 This program is hosted at the Python Package Index (http://pypi.python.org/pypi/Muxpy)
-and is a such best installed by ``pip install muxpy``.
+and is a such best installed by ``pip install muxpy``. pip is available from your local
+package manager, e.g as ``python-pip`` for debian based systems.
+
+To install from source, a quick git clone followed by ``sudo python setup.py install`` in
+the muxpy directory should be quite sufficient.
 
 SUPPORT AND DEVELOPMENT
 ================================
 
-The software is hosted and developed at https://github.com/bjornars/muxpy, and there might be some life at #muxpy at freenode.
+The software is hosted and developed at https://github.com/bjornars/muxpy, and there
+might be some life at #muxpy at freenode.
+
+Check DEVEL for information on how to run in development.
