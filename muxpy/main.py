@@ -53,6 +53,9 @@ def run():
     subp.add_parser('attach', **help['attach'])
     subp.add_parser('kill', **help['kill'])
 
+    if len(sys.argv) == 1:
+        sys.argv.append('help')
+
     parsed = p.parse_args(sys.argv[1:])
 
     logging.basicConfig(format='')
