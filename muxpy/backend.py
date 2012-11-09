@@ -34,8 +34,7 @@ class Backend(object):
         return self.tmux('select-window', '-t', name)
 
     def new_pane(self):
-        self.tmux('select-pane', '-t', '0')
-        self.tmux('split-window', '-h', '-l', '0')
+        self.tmux('split-window', '-h', '-p', '100')
 
     def send_keys(self, keys):
         self.tmux('send-keys', '%s' % keys)
