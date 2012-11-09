@@ -5,6 +5,7 @@ from glob import glob
 
 
 class Processes(object):
+    RE_ESCAPES  = re.compile(r'[\\\$\\ \'"]') # match letters \, $, ', " and space
     def __init__(self):
         self.processes = {}
 
@@ -32,7 +33,7 @@ class Processes(object):
 
             # find command
             with open(os.path.join(process, 'cmdline')) as f:
-                cmd = f.read().replace('\0', ' ')  # flakey!
+                cmd = self.make_safe_cmd(f.read())
 
             self.processes[pid] = dict(parent=parent, pid=pid, cwd=cwd, cmd=cmd, children=[])
 
@@ -47,6 +48,15 @@ class Processes(object):
 
     def get(self, item):
         return self.processes.get(item)
+
+    def make_safe_cmd(self, cmd):
+        cmd = [self.make_safe_arg(each) for each in cmd.split('\0')]
+        return ' '.join(cmd)
+
+    def make_safe_arg(self, arg):
+        def escape(m):
+            return '\\' + m.group(0)
+        return self.RE_ESCAPES.sub(escape, arg)
 
 if __name__ == '__main__':
     p = Processes()
