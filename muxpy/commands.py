@@ -104,3 +104,20 @@ def kill(p):
     tmux.kill_server()
     os.unlink(p.socket)
     print 'killed tmux at %s' % p.socket
+
+def list(p):
+    from glob import glob
+    profile_formats = formats.get_formats()
+    files = glob(os.path.join(profile.get_profile_folder(), '*'))
+    files = [os.path.splitext(f) for f in files]
+    files = [(path, ext[1:]) for path, ext in files]
+    files = [os.path.split(path) + (ext,) for path, ext in files if ext in profile_formats]
+
+    if files:
+        print 'profile\t\tformat'
+        print '-' * 20
+
+        for _, profile_name, format in files:
+            print "%s\t\t%s" % (profile_name, format)
+    else:
+        print 'there are no saved profiles in %s' % profile.get_profile_folder()

@@ -32,6 +32,9 @@ def run():
         'kill': dict(
             description='kill a socket',
             help='kill an existing tmux session'),
+        'list': dict(
+            description='list profiles',
+            help='lists all saved profiles'),
     }
 
     def add_profile(p):
@@ -55,6 +58,7 @@ def run():
 
     add_parser(subp, 'attach')
     add_parser(subp, 'kill')
+    add_parser(subp, 'list')
 
     if len(sys.argv) == 1:
         sys.argv.append('help')
