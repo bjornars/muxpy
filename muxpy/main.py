@@ -30,28 +30,31 @@ def run():
             description='attach to a socket',
             help='attach to an existing tmux session'),
         'kill': dict(
-            description='kill a socket', 
+            description='kill a socket',
             help='kill an existing tmux session'),
     }
 
     def add_profile(p):
         p.add_argument('profile', help='the profile name')
         p.add_argument('-f', '--format', choices=['json'], default='json', help='profile format')
-            
+
+    def add_parser(p, command):
+        return p.add_parser(command, **help[command])
+
     helpp = subp.add_parser('help')
     helpp.add_argument('target', help='help on what?', nargs='?')
 
-    createp = subp.add_parser('create', **help['create'])
+    createp = add_parser(subp, 'create')
     add_profile(createp)
 
-    editp = subp.add_parser('edit', **help['edit'])
+    editp = add_parser(subp, 'edit')
     add_profile(editp)
 
-    startp = subp.add_parser('start', **help['start'])
+    startp = add_parser(subp, 'start')
     add_profile(startp)
 
-    subp.add_parser('attach', **help['attach'])
-    subp.add_parser('kill', **help['kill'])
+    add_parser(subp, 'attach')
+    add_parser(subp, 'kill')
 
     if len(sys.argv) == 1:
         sys.argv.append('help')
@@ -87,16 +90,10 @@ def run():
             err_out('%s is not a socket' % parsed.socket)
 
     try:
-        if parsed.command == 'start':
-            commands.start(parsed)
-        elif parsed.command == 'create':
-            commands.create(parsed)
-        elif parsed.command == 'edit':
-            commands.edit(parsed)
-        elif parsed.command == 'attach':
-            commands.attach(parsed)
-        elif parsed.command == 'kill':
-            commands.kill(parsed)
+        command = getattr(commands, parsed.command)
+        if command:
+            command(parsed)
+
     except process.TmuxExecError as e:
         logger.error(e.message)
 
