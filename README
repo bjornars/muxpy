@@ -4,6 +4,13 @@ Muxpy
 A light-weight python tmux session handler, for saving and
 restoring potentially elaborate tmux session setups.
 
+
+Requirements
+============
+
+Muxpy requires Python v2.7. It might work on v2.6, but that would be purely by chance.
+Creating sessions requires tmux v1.6 or higher, specifically for its ``list-panes -F`` option.
+
 Usage
 =====
 
