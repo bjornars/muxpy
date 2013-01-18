@@ -41,7 +41,6 @@ the muxpy directory should be quite sufficient.
 SUPPORT AND DEVELOPMENT
 ================================
 
-The software is hosted and developed at https://github.com/bjornars/muxpy, and there
-might be some life at #muxpy at freenode.
+The software is hosted and developed at https://github.com/bjornars/muxpy
 
 Check DEVEL for information on how to run in development.
